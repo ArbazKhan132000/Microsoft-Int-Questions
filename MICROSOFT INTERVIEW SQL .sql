@@ -23,7 +23,7 @@ VALUES
 --ordered by order_date. Display the cumulative percentage alongside other details.
 
                                                                          --Cum_per of TS fro region each order by O_date
-																		 -- Cume_dist() WF
+									 -- Cume_dist() WF
 SELECT * ,
 CONCAT(CUME_DIST() OVER(PARTITION BY region ORDER BY order_date ASC) * 100,'%') as [Rank]
 FROM Orders_1;
@@ -59,8 +59,8 @@ SELECT * FROM Orders_2;
 --Include their order IDs, amounts, and the difference in days between the first and last orders
                                             
 											                 --F and L order by each Cust 
-															 --order by O_date
-															 -- FV and LV WF ,PB CID OB O_DATE
+													 --order by O_date
+													 -- FV and LV WF ,PB CID OB O_DATE
 SELECT DISTINCT
        Customer_ID,
 	   FIRST_VALUE(Order_ID) OVER(PARTITION BY Customer_ID ORDER BY Order_date) as [First Order],
@@ -136,7 +136,7 @@ VALUES
 --If there aren't enough months for a 3-month window, the rolling average should still be computed based on the available data.
 
                                                                     --Rollinng avg of 3 month sale  by each region
-																	--Avg WF ,PB Region ,frame size 3 month
+								    --Avg WF ,PB Region ,frame size 3 month
 
 SELECT Region,
 	   [Month],
@@ -164,7 +164,7 @@ VALUES
 --INT QUE 4: Rank customers by their total spending, but only consider orders with an amount less than or equal to $500.
 
                                                                            --Rank on basis of spending,on;y bewo pr equal to 500
-																		   --DENSE RANK WF,subquery ,Filter clause
+									   --DENSE RANK WF,subquery ,Filter clause
 SELECT [Rank],
        Customer_ID,
        Order_Amount
