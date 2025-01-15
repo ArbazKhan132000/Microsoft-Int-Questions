@@ -78,14 +78,14 @@ SELECT DISTINCT
 		       [Last Order],
 		       Day_Difference
 FROM (
-		SELECT Order_id as Order_ID,
-			   Customer_ID,
-			   Amount,
-			   Order_date,
-			   FIRST_VALUE(Order_ID) OVER(PARTITION BY Customer_ID ORDER BY Order_date) as [First Order],
-			   LAST_VALUE(Order_ID) OVER(PARTITION BY Customer_id ORDER BY order_date ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as [Last Order],
-			   DATEDIFF(DAY,(MIN(Order_date) OVER(PARTITION BY Customer_ID)),(MAX(Order_date) OVER(PARTITION BY Customer_ID))) as Day_Difference
-		FROM Orders_2) AS I;
+      SELECT Order_id as Order_ID,
+	     Customer_ID,
+	     Amount,
+	     Order_date,
+	     FIRST_VALUE(Order_ID) OVER(PARTITION BY Customer_ID ORDER BY Order_date) as [First Order],
+	     LAST_VALUE(Order_ID) OVER(PARTITION BY Customer_id ORDER BY order_date ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as [Last Order],
+	     DATEDIFF(DAY,(MIN(Order_date) OVER(PARTITION BY Customer_ID)),(MAX(Order_date) OVER(PARTITION BY Customer_ID))) as Day_Difference
+      FROM Orders_2) AS I;
 
 
 ----WITH CTE
@@ -93,18 +93,18 @@ FROM (
 WITH order_CTE 
 AS (
 SELECT Order_id as Order_ID,
-			   Customer_ID,
-			   Amount,
-			   Order_date,
-			   FIRST_VALUE(Order_ID) OVER(PARTITION BY Customer_ID ORDER BY Order_date) as [First Order],
-			   LAST_VALUE(Order_ID) OVER(PARTITION BY Customer_id ORDER BY order_date ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as [Last Order],
-			   DATEDIFF(DAY,(MIN(Order_date) OVER(PARTITION BY Customer_ID)),(MAX(Order_date) OVER(PARTITION BY Customer_ID))) as Day_Difference
-		FROM Orders_2 )
+       Customer_ID,
+       Amount,
+       Order_date,
+       FIRST_VALUE(Order_ID) OVER(PARTITION BY Customer_ID ORDER BY Order_date) as [First Order],
+       LAST_VALUE(Order_ID) OVER(PARTITION BY Customer_id ORDER BY order_date ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as [Last Order],
+       DATEDIFF(DAY,(MIN(Order_date) OVER(PARTITION BY Customer_ID)),(MAX(Order_date) OVER(PARTITION BY Customer_ID))) as Day_Difference
+FROM Orders_2 )
 SELECT DISTINCT 
                Customer_ID,
-		       [First Order],
-		       [Last Order],
-		       Day_Difference
+	       [First Order],
+	       [Last Order],
+	       Day_Difference
 FROM order_CTE;
 
 
